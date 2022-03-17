@@ -269,11 +269,12 @@ class I3D(torch.nn.Module):
         out = self.mixed_5b(out)
         out = self.mixed_5c(out)
         out = self.avg_pool(out)
+        features = F.normalize(torch.flatten(out,1), dim=1)
         out = self.dropout(out)
 
         out = out.mean(dim=[2, 3, 4])
         out = self.linear(out)
-        return out
+        return features, out
 
     def load_tf_weights(self, sess):
         state_dict = {}
