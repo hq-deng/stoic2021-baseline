@@ -5,6 +5,7 @@ import os
 
 import numpy as np
 import torch
+import torch.nn.functional as F
 
 
 def get_padding_shape(filter_shape, stride):
