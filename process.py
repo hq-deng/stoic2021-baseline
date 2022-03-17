@@ -33,7 +33,7 @@ class StoicAlgorithm(MultiClassAlgorithm):
         # load model
         self.model = I3D(nr_outputs=2)
         self.model = self.model.to(device)
-        self.model.load_state_dict(torch.load('./algorithm/model_covid.pth', map_location=torch.device(device)))
+        self.model.load_state_dict(torch.load('./algorithm/model_covid_v1.0.pth', map_location=torch.device(device)))
         self.model = self.model.eval()
 
     def predict(self, *, input_image: SimpleITK.Image) -> Dict:
@@ -43,7 +43,7 @@ class StoicAlgorithm(MultiClassAlgorithm):
 
         # run model
         with torch.no_grad():
-            output = torch.sigmoid(self.model(input_image))
+            _, output = torch.sigmoid(self.model(input_image))
         prob_covid, prob_severe = unpack_single_output(output)
 
         return {
